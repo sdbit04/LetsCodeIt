@@ -1,0 +1,3 @@
+xpath, //h3[@title = 'Selenium WebDriver Bundle']
+xpath, //div[contains(text(), 'This bundle includes Selenium WebDriver with Java and Python courses. No prior coding experience needed')]
+
