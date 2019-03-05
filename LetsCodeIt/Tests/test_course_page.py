@@ -9,13 +9,15 @@ class TestCoursePage():
     def create_object_course_page(self):
         self.course_page = CoursePage(browser='chrome')  # Hard coded
 
-    def tesrt_page_load(self):
+    def test_page_load(self):
         self.course_page.load_page()
+        self.course_page.take_screen_shot("FailedToFindElementCourse")
         time.sleep(2)
         self.course_page.driver.close()
         assert True
 
-    def tesrt_opening_of_python_course(self):
+    @pytest.mark.skip()
+    def test_opening_of_python_course(self):
         self.course_page.load_page()
         time.sleep(10)
         """
@@ -31,12 +33,16 @@ class TestCoursePage():
         """
 
         self.course_page.move_to_courses_iframe()
+
         self.course_page.click_on_selenium_python()
         time.sleep(5)
         result = self.course_page.validate_if_selenium_python_open()
         assert result, True
 
-
-
-    def tesrt_quit(self):
+    @pytest.mark.skip()
+    def test_quit(self):
         self.course_page.driver.quit()
+
+    @pytest.mark.skip()
+    def test_2(self):
+        assert 2 == 3

@@ -5,6 +5,7 @@ import time
 from ddt import ddt, unpack, data
 from LetsCodeIt.Utils.input_register_page import get_data
 
+module_name = "test_register_page"
 
 @ddt
 class TestRegistrationPage(TestCase):
@@ -13,11 +14,10 @@ class TestRegistrationPage(TestCase):
     def create_page_object(self):
         self.reg_page_ob = RegistrationPage("chrome")
 
-
     # @data(("absadf@gmail.com", "swapna", 1232836274561244, 1223, 3433), ("asonai@gmail.com", "sonai", 1232812274341244, 1123, 3435))
     @data(*(get_data()))
     @unpack
-    def test_registration(self, email, user_name, cc_nbr, cc_exp, cvc):
+    def tes3t_registration(self, email, user_name, cc_nbr, cc_exp, cvc):
         self.reg_page_ob.load_page()
         self.reg_page_ob.enter_email(email)
         self.reg_page_ob.enter_name(user_name)
@@ -29,4 +29,16 @@ class TestRegistrationPage(TestCase):
         self.reg_page_ob.enter_cvv_nbr(cvc)
         time.sleep(2)
         self.reg_page_ob.driver.close()
+        result = 2
+        assert result == 2, "result was not matching with 2 "
+
+
+
+import pytest
+
+module_name = "test_register_page"
+
+def test_1(setup1):
+        assert 2 == 2
+
 

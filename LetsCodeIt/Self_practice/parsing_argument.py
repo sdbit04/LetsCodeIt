@@ -25,15 +25,13 @@ def input_method():
 def test_receiver_method(input_method):
     print("we got {} as input method".format(input_method))
 
-
 """
 
-
-def test_receiver_method(input_method):
-    print("this is test method")
+def test_receiver_method(setup):
+    print("This is test method")
 
 
 def test_argument(get_browser):
-    print("browser name provided is {}".format(get_browser))
+    print("\nBrowser name provided in command line is {}".format(get_browser))
 
 

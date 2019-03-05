@@ -11,5 +11,5 @@ def get_browser(request):
 
 
 @pytest.fixture()
-def input_method(get_browser):
-    print("input_method_value is {}".format(get_browser))
+def setup(get_browser):
+    print("\nSetup : We got from command line argument = {}".format(get_browser))

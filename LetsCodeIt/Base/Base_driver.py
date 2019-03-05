@@ -3,24 +3,63 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+import os
+import time
 
 NAME = "Swapan"
 
 
 class BaseDriver(object):
 
-    def __init__(self, browser):
+    def __init__(self, browser, remote=False):
         self.browser = browser
-        if self.browser.lower() == "chrome":
-            self.driver = webdriver.Chrome(executable_path=r"C:\BrowserDriver\chromedriver.exe")
-        elif self.browser.lower() == "firefox":
-            self.driver = webdriver.Firefox(executable_path=r"")
-        elif self.browser.lower() == "ie":
-            self.driver = webdriver.Ie(executable_path=r"")
+        if remote:
+            self.driver = webdriver.Remote(command_executor="https://localhost:4444/wd/hub",
+                                           desired_capabilities={"browserName": "chrome"})
         else:
-            self.driver = webdriver.Chrome(executable_path=r"C:\BrowserDriver\chromedriver.exe")
+            if self.browser.lower() == "chrome":
+                self.driver = webdriver.Chrome(executable_path=r"C:\BrowserDriver\chromedriver.exe")
+            elif self.browser.lower() == "firefox":
+                self.driver = webdriver.Firefox(executable_path=r"")
+            elif self.browser.lower() == "ie":
+                self.driver = webdriver.Ie(executable_path=r"")
+            else:
+                self.driver = webdriver.Chrome(executable_path=r"C:\BrowserDriver\chromedriver.exe")
 
         self.waitDriver = WebDriverWait(self.driver, 10, 1, ignored_exceptions=[ElementNotVisibleException, NoSuchElementException])
+
+    def find_wait_element(self, locator, locator_type):
+        ByType = self.get_by_type(locator_type)
+        wait_element = self.waitDriver.until(EC.element_to_be_clickable((ByType, locator)))
+        return wait_element
+
+    def take_screen_shot(self, result_message):
+        __local_dir = os.path.dirname(__file__)
+        rel_screen_shot_dir = "..\\ScreenShot"
+        abs_screen_shot_dir = os.path.realpath(os.path.join(__local_dir, rel_screen_shot_dir))
+        print(abs_screen_shot_dir)
+        screen_shot_file = result_message + str(time.time()) + ".png"
+        abs_file_name = os.path.realpath(os.path.join(abs_screen_shot_dir, screen_shot_file))
+        print(abs_file_name)
+        # try:
+        #     if not os.path.exists(abs_screen_shot_dir):
+        #         os.mkdir(abs_screen_shot_dir)
+        #     print("Taking screen shots {}".format(abs_file_name))
+        #     self.driver.save_screenshot(abs_file_name)
+        # except:
+        #     "### Error occur while taking screen shot"
+        print("Taking screen shots {}".format(abs_file_name))
+        try:
+            if not os.path.exists(abs_screen_shot_dir):
+                os.mkdir(abs_screen_shot_dir)
+
+            self.driver.save_screenshot(abs_file_name)
+        #     this statement is not creating screen shot but not throwing exception
+        except:
+            print("### Error occur while taking screen shot")
+        else:
+            print("Screen shot was taken successfully")
+
 
     @staticmethod
     def get_by_type(locator_type='id'):
@@ -75,5 +114,6 @@ class BaseDriver(object):
         self.driver.switch_to.frame(self.get_element(locator, locator_type))
 
 
-
-
+if __name__ == "__main__":
+    driverObject = BaseDriver("Chrome")
+    driverObject.take_screen_shot("Test_fail")
