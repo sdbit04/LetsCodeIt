@@ -43,6 +43,5 @@ class TestCoursePage():
     def test_quit(self):
         self.course_page.driver.quit()
 
-    @pytest.mark.skip()
     def test_2(self):
         assert 2 == 3
